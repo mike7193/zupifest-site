@@ -1,675 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ZupiFest — the event experience by Zupi. Get your tickets now." />
-  <title>ZupiFest</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0a0a0f;
-      --bg2: #13131a;
-      --bg3: #1c1c26;
-      --border: rgba(255,255,255,0.08);
-      --border2: rgba(255,255,255,0.14);
-      --text: #f0f0f5;
-      --muted: #8888a0;
-      --accent: #7c5cfc;
-      --accent2: #a87fff;
-      --accent-glow: rgba(124,92,252,0.25);
-      --pink: #fc5c8a;
-      --teal: #3de8c8;
-      --radius: 16px;
-      --radius-sm: 10px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 40px;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent2); }
-    .nav-cta {
-      background: var(--accent);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: opacity 0.15s;
-    }
-    .nav-cta:hover { opacity: 0.85; }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -200px; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(124,92,252,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(124,92,252,0.12);
-      border: 1px solid rgba(124,92,252,0.3);
-      color: var(--accent2);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 7px 16px;
-      border-radius: 100px;
-      margin-bottom: 28px;
-      letter-spacing: 0.3px;
-    }
-    .hero-badge .dot {
-      width: 7px; height: 7px;
-      background: var(--accent2);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-    .hero h1 {
-      font-size: clamp(48px, 8vw, 88px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 24px;
-    }
-    .hero h1 .grad {
-      background: linear-gradient(135deg, var(--accent2), var(--pink));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--muted);
-      max-width: 540px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      padding: 16px 36px;
-      border-radius: 100px;
-      font-size: 16px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.15s, opacity 0.15s;
-      display: inline-block;
-    }
-    .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      padding: 16px 36px;
-      border-radius: 100px;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid var(--border2);
-      transition: background 0.15s;
-      display: inline-block;
-    }
-    .btn-secondary:hover { background: var(--bg3); }
-
-    /* EVENT DETAILS STRIP */
-    .details-strip {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      flex-wrap: wrap;
-      padding: 0 24px 80px;
-    }
-    .detail-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 14px 24px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .detail-pill:first-child { border-radius: var(--radius) 0 0 var(--radius); }
-    .detail-pill:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
-    .detail-pill .icon { font-size: 18px; }
-    .detail-pill strong { color: var(--text); font-weight: 600; }
-
-    /* SECTION SHARED */
-    section { padding: 80px 24px; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 17px;
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.7;
-      margin-bottom: 48px;
-    }
-
-    /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 680px) { .about-grid { grid-template-columns: 1fr; } }
-    .about-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-    .about-card .card-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      margin-bottom: 16px;
-    }
-    .about-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .about-card p { font-size: 15px; color: var(--muted); line-height: 1.65; }
-    .icon-purple { background: rgba(124,92,252,0.15); }
-    .icon-pink { background: rgba(252,92,138,0.15); }
-    .icon-teal { background: rgba(61,232,200,0.15); }
-    .icon-amber { background: rgba(255,180,60,0.15); }
-
-    /* TICKETS */
-    .tickets-section { background: var(--bg2); }
-    .tickets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-    .ticket-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      transition: border-color 0.2s, transform 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .ticket-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .ticket-card.featured {
-      border-color: var(--accent);
-      background: linear-gradient(145deg, rgba(124,92,252,0.08), var(--bg));
-    }
-    .ticket-card.featured::before {
-      content: 'Most Popular';
-      position: absolute;
-      top: 16px; right: -28px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 36px;
-      transform: rotate(35deg);
-      letter-spacing: 0.5px;
-    }
-    .ticket-tier {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent2);
-    }
-    .ticket-name { font-size: 20px; font-weight: 700; }
-    .ticket-price {
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1;
-    }
-    .ticket-price span { font-size: 18px; font-weight: 500; color: var(--muted); }
-    .ticket-perks {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      flex: 1;
-    }
-    .ticket-perks li {
-      font-size: 14px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .ticket-perks li::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--teal);
-      flex-shrink: 0;
-    }
-    .ticket-btn {
-      display: block;
-      text-align: center;
-      padding: 13px;
-      border-radius: 100px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: opacity 0.15s, transform 0.15s;
-    }
-    .ticket-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-    .ticket-btn-outline {
-      border: 1px solid var(--border2);
-      color: var(--text);
-    }
-    .ticket-btn-filled {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    /* LINEUP / SCHEDULE */
-    .lineup-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .lineup-item {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      background: var(--bg2);
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-    .lineup-item:last-child { border-bottom: none; }
-    .lineup-item:hover { background: var(--bg3); }
-    .lineup-time {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent2);
-      min-width: 70px;
-      font-variant-numeric: tabular-nums;
-    }
-    .lineup-name {
-      font-size: 16px;
-      font-weight: 600;
-      flex: 1;
-    }
-    .lineup-tag {
-      font-size: 12px;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 100px;
-      color: var(--muted);
-      background: var(--bg3);
-      border: 1px solid var(--border);
-    }
-
-    /* FAQ */
-    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
-    details {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-    }
-    details[open] { border-color: var(--border2); }
-    summary {
-      padding: 18px 20px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      list-style: none;
-      user-select: none;
-    }
-    summary::-webkit-details-marker { display: none; }
-    summary::after {
-      content: '+';
-      font-size: 22px;
-      font-weight: 300;
-      color: var(--muted);
-      transition: transform 0.2s;
-    }
-    details[open] summary::after { transform: rotate(45deg); }
-    .faq-answer {
-      padding: 0 20px 18px;
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* CTA BANNER */
-    .cta-banner {
-      margin: 0 24px 80px;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(124,92,252,0.2), rgba(252,92,138,0.1));
-      border: 1px solid rgba(124,92,252,0.3);
-      padding: 60px 40px;
-      text-align: center;
-    }
-    .cta-banner h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; }
-    .cta-banner p { font-size: 17px; color: var(--muted); margin-bottom: 32px; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: gap;
-      gap: 16px;
-    }
-    .footer-logo { font-size: 18px; font-weight: 800; color: var(--text); text-decoration: none; }
-    .footer-logo span { color: var(--accent2); }
-    footer p { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
-    .footer-links a:hover { color: var(--text); }
-
-    @media (max-width: 600px) {
-      nav { padding: 16px 20px; }
-      .cta-banner { padding: 40px 24px; margin: 0 16px 60px; }
-      footer { flex-direction: column; text-align: center; padding: 28px 20px; }
-      .detail-pill { border-radius: var(--radius) !important; margin: 4px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZupiFest</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#06060f;color:#f0f0f8;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:rgba(6,6,15,0.97);border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100}
+.logo{font-size:18px;font-weight:900;color:#fff}.logo em{font-style:normal;background:linear-gradient(135deg,#b97fff,#fc5c8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-btn{background:linear-gradient(135deg,#7c5cfc,#c45cfc);color:#fff;padding:9px 22px;border-radius:100px;font-size:13px;font-weight:700}
+.hero{padding:40px 20px 36px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.3);color:#b97fff;font-size:11px;font-weight:700;padding:6px 14px;border-radius:100px;margin-bottom:20px;letter-spacing:1.5px;text-transform:uppercase}
+.dot{width:6px;height:6px;background:#b97fff;border-radius:50%;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.title-zupi{display:block;font-size:clamp(80px,22vw,180px);font-weight:900;letter-spacing:-6px;line-height:0.9;background:linear-gradient(135deg,#ffffff 0%,#e0d0ff 40%,#b97fff 70%,#fc5c8a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.title-fest{display:block;font-size:clamp(80px,22vw,180px);font-weight:900;letter-spacing:-6px;line-height:0.9;background:linear-gradient(135deg,#fc5c8a 0%,#b97fff 50%,#7c5cfc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.edition-pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:#444;margin:14px 0 18px;border:1px solid rgba(255,255,255,0.08);padding:5px 16px;border-radius:100px}
+.hero-desc{font-size:15px;color:#9090a8;line-height:1.65;max-width:400px;margin:0 auto 22px}
+.info-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:22px}
+.info-chip{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:7px 14px;border-radius:100px;font-size:12px;color:#bbb}
+.info-chip strong{color:#fff;font-weight:700}
+.countdown{display:flex;gap:8px;justify-content:center;margin-bottom:24px}
+.cbox{text-align:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 14px;min-width:60px}
+.cnum{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;color:#fff}
+.clbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#444;margin-top:3px}
+.buy-section{padding:28px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.buy-inner{max-width:440px;margin:0 auto}
+.sec-kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#b97fff;margin-bottom:12px}
+.ticket-card{background:#0d0d1e;border:1.5px solid rgba(124,92,252,0.4);border-radius:16px;padding:24px;margin-bottom:16px}
+.tc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.tc-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#b97fff}
+.tc-badge{background:linear-gradient(135deg,#7c5cfc,#c45cfc);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px}
+.tc-name{font-size:18px;font-weight:800;margin-bottom:4px}
+.tc-price{font-size:42px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:14px}.tc-price small{font-size:15px;font-weight:400;color:#555}
+.tc-perks{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.tc-perks li{font-size:13px;color:#9090a8;display:flex;align-items:center;gap:8px}
+.tc-perks li::before{content:'';width:5px;height:5px;border-radius:50%;background:#3de8c8;flex-shrink:0}
+.buy-btn{display:block;width:100%;text-align:center;padding:15px;border-radius:100px;font-size:16px;font-weight:800;background:linear-gradient(135deg,#7c5cfc,#c45cfc);color:#fff}
+.pay-note{text-align:center;font-size:11px;color:#444;margin-top:10px}
+.sched-section{padding:28px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sched-inner{max-width:440px;margin:0 auto}
+.sched-list{border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden}
+.srow{display:flex;align-items:center;gap:14px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.05);background:#0a0a18}
+.srow:nth-child(even){background:#06060f}
+.srow:last-child{border-bottom:none}
+.stime{font-size:12px;font-weight:700;color:#b97fff;min-width:46px}
+.sname{font-size:13px;font-weight:600;flex:1}
+.stag{font-size:10px;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,0.04);color:#555;border:1px solid rgba(255,255,255,0.06)}
+.gallery-section{padding:28px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.gallery-inner{max-width:440px;margin:0 auto}
+.ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.gitem{border-radius:10px;aspect-ratio:1;background:#0d0d1e;border:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.gitem.vid{border-color:rgba(185,127,255,0.2)}
+.gitem span{font-size:10px;color:#444;font-weight:500}
+.gitem.vid span{color:#b97fff}
+.loc-section{padding:28px 20px}
+.loc-inner{max-width:440px;margin:0 auto}
+.loc-box{background:#0a0a18;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+.loc-ic{width:40px;height:40px;background:rgba(124,92,252,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.loc-text h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.loc-text p{font-size:12px;color:#9090a8;line-height:1.6}
+.map-btn{display:inline-block;margin-top:10px;background:linear-gradient(135deg,#7c5cfc,#c45cfc);color:#fff;padding:7px 16px;border-radius:100px;font-size:12px;font-weight:700}
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.fl{font-size:14px;font-weight:900}.fl em{font-style:normal;background:linear-gradient(135deg,#b97fff,#fc5c8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+footer p{font-size:11px;color:#444}
+.flinks{display:flex;gap:14px}.flinks a{font-size:11px;color:#444}
+</style>
 </head>
 <body>
-
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Zupi<span>Fest</span></a>
-    <a href="#tickets" class="nav-cta">Get Tickets</a>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">
-      <div class="dot"></div>
-      Tickets on sale now
+<nav>
+  <div class="logo">Z<em>upiFest</em></div>
+  <a href="#buy" class="nav-btn">Get Tickets</a>
+</nav>
+<div class="hero">
+  <div class="badge"><div class="dot"></div>April 25 · Shinjuku, Tokyo</div>
+  <span class="title-zupi">Zupi</span>
+  <span class="title-fest">Fest</span>
+  <div class="edition-pill">Edition 02</div>
+  <p class="hero-desc">One night. One platform. Kabukicho's most electric event — powered by Zupi.</p>
+  <div class="info-row">
+    <div class="info-chip">📅 <strong>April 25, 2026</strong></div>
+    <div class="info-chip">🕗 <strong>19:30 – 23:00</strong></div>
+    <div class="info-chip">📍 <strong>3F Kabukicho, Shinjuku</strong></div>
+  </div>
+  <div class="countdown">
+    <div class="cbox"><div class="cnum" id="cd-d">--</div><div class="clbl">Days</div></div>
+    <div class="cbox"><div class="cnum" id="cd-h">--</div><div class="clbl">Hrs</div></div>
+    <div class="cbox"><div class="cnum" id="cd-m">--</div><div class="clbl">Min</div></div>
+    <div class="cbox"><div class="cnum" id="cd-s">--</div><div class="clbl">Sec</div></div>
+  </div>
+</div>
+<div id="buy" class="buy-section">
+  <div class="buy-inner">
+    <div class="sec-kicker">Tickets</div>
+    <div class="ticket-card">
+      <div class="tc-top"><div class="tc-label">Early Access</div><div class="tc-badge">Limited</div></div>
+      <div class="tc-name">General Admission</div>
+      <div class="tc-price">¥1,500 <small>/ person</small></div>
+      <ul class="tc-perks">
+        <li>Full event access · 19:30 – 23:00</li>
+        <li>All performances &amp; stages</li>
+        <li>Digital ticket sent to your email</li>
+        <li>No account needed</li>
+      </ul>
+      <a href="https://zupiapp.com/checkout/zupifest2" class="buy-btn">Buy Ticket — ¥1,500</a>
     </div>
-    <h1>The <span class="grad">ZupiFest</span><br/>Experience</h1>
-    <p>One night. One platform. Your city's most electric event — powered by Zupi.</p>
-    <div class="hero-actions">
-      <a href="#tickets" class="btn-primary">Buy Tickets</a>
-      <a href="#about" class="btn-secondary">Learn More</a>
-    </div>
-  </section>
-
-  <!-- EVENT DETAILS STRIP -->
-  <div class="details-strip">
-    <div class="detail-pill">
-      <span class="icon">📅</span>
-      <div><strong>Date</strong> — TBA 2026</div>
-    </div>
-    <div class="detail-pill">
-      <span class="icon">📍</span>
-      <div><strong>Venue</strong> — TBA</div>
-    </div>
-    <div class="detail-pill">
-      <span class="icon">🕗</span>
-      <div><strong>Doors open</strong> — 7:00 PM</div>
-    </div>
-    <div class="detail-pill">
-      <span class="icon">🎟️</span>
-      <div><strong>Limited spots</strong></div>
+    <p class="pay-note">Visa · Mastercard · Apple Pay · Google Pay</p>
+  </div>
+</div>
+<div class="sched-section">
+  <div class="sched-inner">
+    <div class="sec-kicker">Schedule</div>
+    <div class="sched-list">
+      <div class="srow"><span class="stime">19:30</span><span class="sname">Doors open</span><span class="stag">All</span></div>
+      <div class="srow"><span class="stime">20:00</span><span class="sname">Opening act — TBA</span><span class="stag">Stage</span></div>
+      <div class="srow"><span class="stime">21:00</span><span class="sname">Headline performance — TBA</span><span class="stag">Stage</span></div>
+      <div class="srow"><span class="stime">22:00</span><span class="sname">Zupi creator showcase</span><span class="stag">Special</span></div>
+      <div class="srow"><span class="stime">22:30</span><span class="sname">Closing set</span><span class="stag">Stage</span></div>
+      <div class="srow"><span class="stime">23:00</span><span class="sname">End of event</span><span class="stag">All</span></div>
     </div>
   </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-inner">
-      <div class="section-label">About ZupiFest</div>
-      <h2 class="section-title">More than just an event</h2>
-      <p class="section-sub">ZupiFest brings the Zupi community together IRL — live performances, connections, and memories you won't find anywhere else.</p>
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="card-icon icon-purple">🎵</div>
-          <h3>Live Music & Performances</h3>
-          <p>Handpicked artists from the Zupi platform take the stage for unforgettable live sets.</p>
-        </div>
-        <div class="about-card">
-          <div class="card-icon icon-pink">🔥</div>
-          <h3>Exclusive Zupi Content</h3>
-          <p>Behind-the-scenes access, creator meetups and content moments you can only get at ZupiFest.</p>
-        </div>
-        <div class="about-card">
-          <div class="card-icon icon-teal">🌐</div>
-          <h3>Community First</h3>
-          <p>Connect face-to-face with creators, fans, and the people who make Zupi what it is.</p>
-        </div>
-        <div class="about-card">
-          <div class="card-icon icon-amber">⚡</div>
-          <h3>Powered by Zupi</h3>
-          <p>The same energy you love in the app — amplified, live, and in your city.</p>
-        </div>
-      </div>
+</div>
+<div class="gallery-section">
+  <div class="gallery-inner">
+    <div class="sec-kicker">Edition 1 highlights</div>
+    <div class="ggrid">
+      <div class="gitem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>
+      <div class="gitem vid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b97fff" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Video</span></div>
+      <div class="gitem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>
+      <div class="gitem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>
+      <div class="gitem vid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b97fff" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Video</span></div>
+      <div class="gitem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>
     </div>
-  </section>
-
-  <!-- TICKETS -->
-  <section id="tickets" class="tickets-section">
-    <div class="section-inner">
-      <div class="section-label">Tickets</div>
-      <h2 class="section-title">Choose your experience</h2>
-      <p class="section-sub">No account needed. Pick a tier, pay securely through Zupi, and your ticket is sent straight to you.</p>
-      <div class="tickets-grid">
-
-        <div class="ticket-card">
-          <div class="ticket-tier">General</div>
-          <div class="ticket-name">Standard Access</div>
-          <div class="ticket-price">$25 <span>/ person</span></div>
-          <ul class="ticket-perks">
-            <li>Full event access</li>
-            <li>All main stage performances</li>
-            <li>Food & drink vendors</li>
-            <li>Digital ticket via email</li>
-          </ul>
-          <a href="#buy" class="ticket-btn ticket-btn-outline">Get Standard</a>
-        </div>
-
-        <div class="ticket-card featured">
-          <div class="ticket-tier">VIP</div>
-          <div class="ticket-name">VIP Access</div>
-          <div class="ticket-price">$75 <span>/ person</span></div>
-          <ul class="ticket-perks">
-            <li>Everything in Standard</li>
-            <li>VIP lounge access</li>
-            <li>Priority entry — skip the line</li>
-            <li>Exclusive ZupiFest merch</li>
-            <li>Meet & greet opportunity</li>
-          </ul>
-          <a href="#buy" class="ticket-btn ticket-btn-filled">Get VIP</a>
-        </div>
-
-        <div class="ticket-card">
-          <div class="ticket-tier">Group</div>
-          <div class="ticket-name">Group (5+)</div>
-          <div class="ticket-price">$20 <span>/ person</span></div>
-          <ul class="ticket-perks">
-            <li>Full event access for your group</li>
-            <li>Reserved group zone</li>
-            <li>Discounted entry rate</li>
-            <li>One group QR code</li>
-          </ul>
-          <a href="#buy" class="ticket-btn ticket-btn-outline">Get Group</a>
-        </div>
-
-      </div>
-
-      <!-- BUY SECTION — wire up your Zupi payment gateway here -->
-      <div id="buy" style="margin-top: 48px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; text-align: center;">
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Secure Checkout</p>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Ready to get your tickets?</h3>
-        <p style="font-size: 15px; color: var(--muted); margin-bottom: 28px;">Powered by Zupi's payment gateway. No account needed — just pay and go.</p>
-        <!-- 🔧 REPLACE href with your actual Zupi payment/checkout URL -->
-        <a href="https://zupiapp.com/checkout/zupifest" class="btn-primary" style="font-size: 17px; padding: 18px 48px;">
-          Buy Tickets Now
-        </a>
-        <p style="margin-top: 16px; font-size: 13px; color: var(--muted);">Visa · Mastercard · Apple Pay · Google Pay</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCHEDULE / LINEUP -->
-  <section id="lineup">
-    <div class="section-inner">
-      <div class="section-label">Schedule</div>
-      <h2 class="section-title">What's happening</h2>
-      <p class="section-sub">Full lineup drops soon. Here's a taste of what to expect.</p>
-      <div class="lineup-list">
-        <div class="lineup-item">
-          <span class="lineup-time">7:00 PM</span>
-          <span class="lineup-name">Doors Open</span>
-          <span class="lineup-tag">All Access</span>
-        </div>
-        <div class="lineup-item">
-          <span class="lineup-time">7:30 PM</span>
-          <span class="lineup-name">Opening Act — TBA</span>
-          <span class="lineup-tag">Main Stage</span>
-        </div>
-        <div class="lineup-item">
-          <span class="lineup-time">9:00 PM</span>
-          <span class="lineup-name">Headline Performance — TBA</span>
-          <span class="lineup-tag">Main Stage</span>
-        </div>
-        <div class="lineup-item">
-          <span class="lineup-time">10:30 PM</span>
-          <span class="lineup-name">Zupi Creator Showcase</span>
-          <span class="lineup-tag">Special</span>
-        </div>
-        <div class="lineup-item">
-          <span class="lineup-time">11:30 PM</span>
-          <span class="lineup-name">Closing Set</span>
-          <span class="lineup-tag">Main Stage</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" style="background: var(--bg2);">
-    <div class="section-inner">
-      <div class="section-label">FAQ</div>
-      <h2 class="section-title">Common questions</h2>
-      <div class="faq-list">
-        <details>
-          <summary>Do I need a Zupi account to buy tickets?</summary>
-          <div class="faq-answer">No account needed at all. Just click "Buy Tickets", complete your payment, and your ticket is sent to your email. Simple as that.</div>
-        </details>
-        <details>
-          <summary>How will I receive my ticket?</summary>
-          <div class="faq-answer">Once payment is confirmed, you'll receive a digital ticket (QR code) to your email address. Show it at the door — no printing needed.</div>
-        </details>
-        <details>
-          <summary>Can I get a refund?</summary>
-          <div class="faq-answer">Tickets are non-refundable but can be transferred. If the event is cancelled or postponed by Zupi, full refunds will be issued automatically.</div>
-        </details>
-        <details>
-          <summary>Is there a minimum age requirement?</summary>
-          <div class="faq-answer">You must be 18+ to attend ZupiFest. Valid ID will be checked at the door.</div>
-        </details>
-        <details>
-          <summary>When will the full lineup be announced?</summary>
-          <div class="faq-answer">Follow Zupi on socials and check back here — full lineup drops soon. Early ticket holders get notified first.</div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <div class="cta-banner">
-    <h2>Don't miss out — tickets are limited</h2>
-    <p>Grab yours now before they sell out. No account needed.</p>
-    <a href="#tickets" class="btn-primary" style="font-size: 17px; padding: 16px 44px;">Get My Ticket</a>
   </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <a href="#" class="footer-logo">Zupi<span>Fest</span></a>
-    <p>© 2026 Zupi. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="https://zupiapp.com">Zupi App</a>
-      <a href="https://zupiapp.com/terms">Terms</a>
-      <a href="https://zupiapp.com/support">Support</a>
+</div>
+<div class="loc-section">
+  <div class="loc-inner">
+    <div class="sec-kicker">Location</div>
+    <div class="loc-box">
+      <div class="loc-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b97fff" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class="loc-text">
+        <h3>3F, 2-45-8 Kabukicho, Shinjuku-ku</h3>
+        <p>April 25, 2026 · 19:30 – 23:00<br/>3 min from Shinjuku Station East Exit</p>
+        <a href="https://maps.google.com/?q=2-45-8+Kabukicho+Shinjuku+Tokyo" class="map-btn">Open in Maps</a>
+      </div>
     </div>
-  </footer>
-
+  </div>
+</div>
+<footer>
+  <div class="fl">Z<em>upiFest</em> <span style="font-size:10px;color:#444;font-weight:600">E2</span></div>
+  <p>© 2026 Zupi</p>
+  <div class="flinks"><a href="https://zupiapp.com">Zupi App</a><a href="https://zupiapp.com/terms">Terms</a></div>
+</footer>
+<script>
+function tick(){var t=new Date('2026-04-25T19:30:00+09:00'),n=new Date(),d=t-n;
+if(d<=0){['d','h','m','s'].forEach(function(x){document.getElementById('cd-'+x).textContent='0'});return}
+document.getElementById('cd-d').textContent=Math.floor(d/86400000);
+document.getElementById('cd-h').textContent=String(Math.floor((d%86400000)/3600000)).padStart(2,'0');
+document.getElementById('cd-m').textContent=String(Math.floor((d%3600000)/60000)).padStart(2,'0');
+document.getElementById('cd-s').textContent=String(Math.floor((d%60000)/1000)).padStart(2,'0');}
+tick();setInterval(tick,1000);
+</script>
 </body>
 </html>
