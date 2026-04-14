@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-Spanner | Official Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-2: #1a1a1a;
+    --accent: #e8ff00;
+    --accent-dim: #b8cc00;
+    --text: #f0f0f0;
+    --text-muted: #888888;
+    --text-dim: #555555;
+    --border: #222222;
+    --glow: rgba(232, 255, 0, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .logo::after {
+    content: '\00AE';
+    font-size: 0.5em;
+    position: relative;
+    top: -0.8em;
+    margin-left: 2px;
+    opacity: 0.5;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(232,255,0,0.06) 0%, transparent 70%),
+      radial-gradient(circle at 20% 80%, rgba(232,255,0,0.03) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: fadeInDown 0.8s ease both;
+  }
+
+  .hero-label::before, .hero-label::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+    display: inline-block;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232,255,0,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 10px rgba(232,255,0,0); }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 14rem);
+    line-height: 0.85;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    position: relative;
+  }
+
+  .hero-title span {
+    display: block;
+    background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease 0.5s both;
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    animation: fadeInUp 0.8s ease 0.6s both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(232,255,0,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* SECTION STYLES */
+  section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-tag {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* NEW RELEASE */
+  #release {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .release-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .release-embed {
+    position: relative;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+
+  .release-embed::before {
+    content: 'LATEST RELEASE';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 2;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    text-align: center;
+  }
+
+  .release-embed iframe {
+    display: block;
+    width: 100%;
+    border: none;
+  }
+
+  .release-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .release-info .release-type {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .release-info p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 420px;
+  }
+
+  .stream-links {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .stream-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+
+  .stream-btn:hover {
+    border-color: var(--accent);
+    background: rgba(232,255,0,0.05);
+    transform: translateY(-2px);
+  }
+
+  .stream-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* VIDEOS — horizontal rolling marquee */
+  .videos-wrap { max-width: 1200px; margin: 0 auto; }
+
+  .video-marquee-outer {
+    overflow: hidden;
+    position: relative;
+    margin: 0 -3rem;
+    padding: 0.5rem 0;
+  }
+
+  /* fade edges */
+  .video-marquee-outer::before,
+  .video-marquee-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .video-marquee-outer::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .video-marquee-outer::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+  .video-marquee-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    animation: videoScroll 30s linear infinite;
+  }
+
+  .video-marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes videoScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .video-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: all 0.4s;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text);
+    flex-shrink: 0;
+    width: 380px;
+  }
+
+  .video-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .video-thumb {
+    aspect-ratio: 16/9;
+    background: var(--surface-2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,255,0,0.08), rgba(255,0,110,0.06));
+  }
+
+  .play-icon {
+    width: 56px;
+    height: 56px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 1;
+  }
+
+  .video-card:hover .play-icon {
+    border-color: var(--accent);
+    background: rgba(232,255,0,0.1);
+    transform: scale(1.1);
+  }
+
+  .play-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
+    margin-left: 3px;
+  }
+
+  .video-info {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .video-info h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .video-info span {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  /* TOP TRACKS */
+  .tracks-wrap { max-width: 1200px; margin: 0 auto; }
+
+  .track-list { border-top: 1px solid var(--border); }
+
+  .track-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .track-row:hover {
+    background: rgba(232,255,0,0.03);
+    padding-left: 1rem;
+  }
+
+  .track-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--text-dim);
+    text-align: center;
+    transition: color 0.3s;
+  }
+
+  .track-row:hover .track-num { color: var(--accent); }
+
+  .track-info h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .track-info span {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .track-play {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+
+  .track-row:hover .track-play {
+    border-color: var(--accent);
+    background: rgba(232,255,0,0.1);
+  }
+
+  .track-play svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--text-muted);
+    margin-left: 2px;
+    transition: fill 0.3s;
+  }
+
+  .track-row:hover .track-play svg { fill: var(--accent); }
+
+  @media (max-width: 768px) {
+    .track-row { gap: 1rem; }
+  }
+
+  /* EVENTS */
+  #events {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .events-wrap { max-width: 1200px; margin: 0 auto; }
+
+  .event-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .event-row:last-child { border-bottom: none; }
+
+  .event-row:hover {
+    padding-left: 1rem;
+    background: rgba(232,255,0,0.02);
+  }
+
+  .event-date {
+    text-align: center;
+  }
+
+  .event-date .month {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .event-date .day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .event-details h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .event-details span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .event-ticket {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.7rem 1.8rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .event-ticket:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,0,0.05);
+  }
+
+  .event-badge {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    background: var(--accent);
+    color: var(--bg);
+    display: inline-block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* CONNECT / SOCIAL */
+  .connect-wrap { max-width: 1200px; margin: 0 auto; }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .social-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .social-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .social-card:hover::before { transform: scaleX(1); }
+
+  .social-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  }
+
+  .social-card svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 1rem;
+    fill: var(--text-muted);
+    transition: fill 0.3s;
+  }
+
+  .social-card:hover svg { fill: var(--accent); }
+
+  .social-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .social-card span {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  footer p {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE NAV TOGGLE */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    transition: all 0.3s;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+
+    .nav-toggle { display: flex; }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-links.open { display: flex; }
+
+    section { padding: 4rem 1.5rem; }
+
+    .release-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .release-embed { max-width: 100%; }
+
+    .release-info h3 { font-size: 2.5rem; }
+
+    .video-card { width: 280px; }
+
+    .event-row {
+      grid-template-columns: 80px 1fr;
+      gap: 1rem;
+    }
+
+    .event-ticket { grid-column: 2; }
+
+    .social-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">B-SPANNER</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#release">Music</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label"><span class="pulse-dot"></span> New Music Out Now</div>
+  <h1 class="hero-title"><span>B-SPANNER</span></h1>
+  <p class="hero-sub">Hip-Hop artist, producer &amp; visionary. Bringing raw energy from the studio to stages worldwide.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">97K</div><div class="stat-label">Monthly Listeners</div></div>
+    <div class="stat"><div class="stat-num">SMASH</div><div class="stat-label">Music Label</div></div>
+    <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Latest Drop</div></div>
+  </div>
+  <div class="hero-cta">
+    <a href="https://open.spotify.com/artist/7qsx4ACvkISyFPPLFngPux" target="_blank" class="btn btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      Play HASHIRE
+    </a>
+    <a href="#events" class="btn btn-outline">Upcoming Shows</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NEW RELEASE -->
+<section id="release">
+  <div class="release-grid">
+    <div class="release-embed reveal">
+      <iframe src="https://open.spotify.com/embed/artist/7qsx4ACvkISyFPPLFngPux?utm_source=generator&theme=0" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify Player"></iframe>
+    </div>
+    <div class="release-info reveal">
+      <div class="section-tag">Latest Release</div>
+      <h3>HASHIRE</h3>
+      <div class="release-type">Single &middot; Open Verse Version &middot; 2026</div>
+      <p>The newest drop from B-Spanner. Stream it now on all platforms. Every play counts — produced and released under SMASH MUSIC.</p>
+      <div class="stream-links">
+        <a href="https://open.spotify.com/track/7AxjCUbzZVLgsxVtkNdRTe" target="_blank" class="stream-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Spotify
+        </a>
+        <a href="https://music.apple.com/us/artist/b-spanner/1491662570" target="_blank" class="stream-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Apple Music
+        </a>
+        <a href="#" target="_blank" class="stream-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TOP TRACKS -->
+<section id="tracks">
+  <div class="tracks-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Top Tracks</div>
+      <div class="section-title">Most Played Songs</div>
+    </div>
+    <div class="track-list">
+      <a href="https://open.spotify.com/track/6hLDs3ngsakfOXzg5HiWN9" target="_blank" class="track-row reveal">
+        <div class="track-num">01</div>
+        <div class="track-info"><h4>Me "you"</h4><span>456,848 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">02</div>
+        <div class="track-info"><h4>Let Me Love You</h4><span>130,723 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="https://open.spotify.com/track/0aEtubAs2j1b6athtnodld" target="_blank" class="track-row reveal">
+        <div class="track-num">03</div>
+        <div class="track-info"><h4>Absent - B-Spanner Edit</h4><span>59,298 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">04</div>
+        <div class="track-info"><h4>Pop Like</h4><span>238,311 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">05</div>
+        <div class="track-info"><h4>POP Like YR - Sped Up</h4><span>85,181 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">06</div>
+        <div class="track-info"><h4>FEEL GOOD - Remix</h4><span>30,609 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">07</div>
+        <div class="track-info"><h4>TOSSIN&rsquo;</h4><span>5,402 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">08</div>
+        <div class="track-info"><h4>Pop Off</h4><span>2,566 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">09</div>
+        <div class="track-info"><h4>Automatic</h4><span>178,280 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+      <a href="#" target="_blank" class="track-row reveal">
+        <div class="track-num">10</div>
+        <div class="track-info"><h4>Pop Like (PInadoll Remix)</h4><span>16,978 streams</span></div>
+        <div class="track-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="videos-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Watch</div>
+      <div class="section-title">Official Videos</div>
+    </div>
+  </div>
+  <div class="video-marquee-outer">
+    <div class="video-marquee-track">
+      <!-- Set 1 -->
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>OBSESSION (Official Video)</h4><span>Official Music Video &middot; 2026</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Me "you" (Visualizer)</h4><span>Official Audio &middot; 2025</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Automatic ft. Elina</h4><span>Official Music Video &middot; 2022</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Enemies ft. Cz TIGER</h4><span>Official Music Video &middot; 2023</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Problems ft. Zenaku &amp; YUMV</h4><span>Official Music Video &middot; 2023</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Feel Good</h4><span>Official Audio &middot; 2023</span></div>
+      </a>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>OBSESSION (Official Video)</h4><span>Official Music Video &middot; 2026</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Me "you" (Visualizer)</h4><span>Official Audio &middot; 2025</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Automatic ft. Elina</h4><span>Official Music Video &middot; 2022</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Enemies ft. Cz TIGER</h4><span>Official Music Video &middot; 2023</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Problems ft. Zenaku &amp; YUMV</h4><span>Official Music Video &middot; 2023</span></div>
+      </a>
+      <a href="#" class="video-card" target="_blank">
+        <div class="video-thumb">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info"><h4>Feel Good</h4><span>Official Audio &middot; 2023</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="events-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Live</div>
+      <div class="section-title">Upcoming Events</div>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">
+        <div class="month">Apr</div>
+        <div class="day">18</div>
+      </div>
+      <div class="event-details">
+        <div class="event-badge">Coming Soon</div>
+        <h4>Venue Name &mdash; City, Country</h4>
+        <span>Doors 7PM &middot; Show 9PM</span>
+      </div>
+      <a href="#" class="event-ticket">Tickets</a>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">
+        <div class="month">May</div>
+        <div class="day">10</div>
+      </div>
+      <div class="event-details">
+        <h4>Festival Name &mdash; City, Country</h4>
+        <span>Main Stage &middot; 10PM</span>
+      </div>
+      <a href="#" class="event-ticket">Tickets</a>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">
+        <div class="month">Jun</div>
+        <div class="day">22</div>
+      </div>
+      <div class="event-details">
+        <h4>Club Night &mdash; City, Country</h4>
+        <span>Special Guest Set &middot; 11PM</span>
+      </div>
+      <a href="#" class="event-ticket">RSVP</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONNECT -->
+<section id="connect">
+  <div class="connect-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Follow</div>
+      <div class="section-title">Stay Connected</div>
+    </div>
+    <div class="social-grid">
+      <a href="#" class="social-card reveal" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <h4>Instagram</h4>
+        <span>@b-spanner</span>
+      </a>
+      <a href="#" class="social-card reveal" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        <h4>TikTok</h4>
+        <span>@b-spanner</span>
+      </a>
+      <a href="#" class="social-card reveal" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <h4>Facebook</h4>
+        <span>B-Spanner</span>
+      </a>
+      <a href="https://open.spotify.com/artist/7qsx4ACvkISyFPPLFngPux" target="_blank" class="social-card reveal">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        <h4>Spotify</h4>
+        <span>97K listeners</span>
+      </a>
+      <a href="#" class="social-card reveal" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <h4>YouTube</h4>
+        <span>Subscribe</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">B-SPANNER</div>
+  <p>&copy; 2026 B-Spanner. All rights reserved. &middot; b-spanner.com</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll for nav
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('.nav-links').classList.remove('open');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
