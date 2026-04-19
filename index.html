@@ -341,5 +341,6 @@ var vidObs=new IntersectionObserver(function(entries){
 document.querySelectorAll('.vid-card').forEach(function(c){vidObs.observe(c)});
 document.addEventListener('keydown',function(e){if(!document.getElementById('vid-lightbox').classList.contains('active'))return;if(e.key==='Escape')closeVlb();if(e.key==='ArrowRight')navVlb(1);if(e.key==='ArrowLeft')navVlb(-1);});
 </script>
+<script src="zupifest-tracker.js"></script>
 </body>
 </html>
